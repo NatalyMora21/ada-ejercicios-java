@@ -89,13 +89,13 @@ public class Tateti {
 		posicion2 = sc.nextInt();
 
 		if (posicion1 > 3 || posicion2 > 3) {
-			System.out.println("Coordenas inválidas, --Intente nuevamente--");
+			System.out.println("\nCoordenas inválidas, --Intente nuevamente--\n");
 			coordenadas(tablero, valores, ficha);
 
 		} else {
 			if (valores[posicion1 - 1][posicion2 - 1].equals("O")
 					|| valores[posicion1 - 1][posicion2 - 1].equals("X")) {
-				System.out.println("Campo lleno, --Intente nuevamente--");
+				System.out.println("\nCampo lleno, --Intente nuevamente--\n");
 				coordenadas(tablero, valores, ficha);
 
 			} else {
@@ -118,12 +118,19 @@ public class Tateti {
 	}
 
 	public static void main(String[] args) {
-
+		String tableroejemplo[][] = { { "1,1", "1,2", "1,3" }, { "2,1", "2,2", "2,3" }, { "3,1", "3,2", "3,3" } };
 		String tablero[][] = { { "__", "__", "__" }, { "__", "__", "__" }, { "__", "__", "__" } };
 		String valores[][] = { { "", "", "" }, { "", "", "" }, { "", "", "" } };
 		int jugador;
 		int movimiento = 0;
 		String ficha;
+
+		System.out.println("TATETI");
+		System.out.println(
+				"--Instrucciones--\n 1. El sistem le pedirá dos coordenas, esta será la posición de la ficha en el tablero."
+						+ " \n 2. Ingrese un número del 1 al 3 por cada petición\n 3. Ejemplo: \n");
+		tablero(tableroejemplo);
+		System.out.println(" ");
 
 		while (movimiento != 9) {
 			if (movimiento % 2 == 0) {
@@ -133,7 +140,9 @@ public class Tateti {
 				jugador = 2;
 				ficha = "X";
 			}
-			System.out.println("TURNO JUGADOR " + jugador);
+
+			System.out.println("\n--TURNO JUGADOR " + jugador + "--");
+			System.out.println(" ");
 			coordenadas(tablero, valores, ficha);
 			if (movimiento >= 3) {
 
