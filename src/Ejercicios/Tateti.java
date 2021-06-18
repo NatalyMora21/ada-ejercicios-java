@@ -6,6 +6,7 @@ public class Tateti {
 
 	static Scanner sc = new Scanner(System.in);
 
+	// Verifica si en algunas de las filas las fichas son las mismas
 	static int validacionhorizontal(String tablero[][]) {
 		int horizontales = 0;
 		int ganador = 0;
@@ -25,6 +26,7 @@ public class Tateti {
 		return ganador;
 	}
 
+	// Verifica si en algunas de las columnas las fichas son las mismas
 	static int validacionvertical(String tablero[][]) {
 		int verticales = 0;
 		int ganador = 0;
@@ -40,30 +42,39 @@ public class Tateti {
 			if (verticales == 2) {
 				ganador = 1;
 			}
-
 		}
 		return ganador;
-
 	}
 
+	// Verifica si en la diagonal de izquierda a derecha las fichas son las mismas
 	static int validaciondiagonal(String tablero[][]) {
 		int diagonal = 0;
 		int ganador = 0;
 
 		for (int i = 0; i < 2; i++) {
-			diagonal = 0;
+
 			if (tablero[i][i] != "") {
-				if (tablero[i][i] == tablero[i + 1][i]) {
+				if (tablero[i][i] == tablero[i + 1][i + 1]) {
 					diagonal++;
 				}
 			}
 			if (diagonal == 2) {
 				ganador = 1;
 			}
-
 		}
 		return ganador;
 
+	}
+
+	// Verifica si en la diagonal de derecha a izquierda las fichas son las mismas
+	static int validaciondiagonalder(String tablero[][]) {
+		int ganador = 0;
+
+		if (tablero[0][2] == tablero[1][1] && tablero[1][1] == tablero[2][0]) {
+			ganador = 1;
+		}
+
+		return ganador;
 	}
 
 	static void coordenadas(String[][] tablero, String[][] valores, String ficha) {
@@ -77,16 +88,24 @@ public class Tateti {
 		System.out.println("Ingrese la segunda coordenada");
 		posicion2 = sc.nextInt();
 
-		if (valores[posicion1 - 1][posicion2 - 1].equals("O") || valores[posicion1 - 1][posicion2 - 1].equals("X")) {
-			System.out.println("Campo lleno, --Intente nuevamente--");
+		if (posicion1 > 3 || posicion2 > 3) {
+			System.out.println("Coordenas inválidas, --Intente nuevamente--");
 			coordenadas(tablero, valores, ficha);
 
 		} else {
-			System.out.println();
-			tablero[posicion1 - 1][posicion2 - 1] = ficha + " ";
-			valores[posicion1 - 1][posicion2 - 1] = ficha;
-			tablero(tablero);
+			if (valores[posicion1 - 1][posicion2 - 1].equals("O")
+					|| valores[posicion1 - 1][posicion2 - 1].equals("X")) {
+				System.out.println("Campo lleno, --Intente nuevamente--");
+				coordenadas(tablero, valores, ficha);
+
+			} else {
+				System.out.println();
+				tablero[posicion1 - 1][posicion2 - 1] = ficha + " ";
+				valores[posicion1 - 1][posicion2 - 1] = ficha;
+				tablero(tablero);
+			}
 		}
+
 	}
 
 	static void tablero(String[][] tablero) {
@@ -102,44 +121,37 @@ public class Tateti {
 
 		String tablero[][] = { { "__", "__", "__" }, { "__", "__", "__" }, { "__", "__", "__" } };
 		String valores[][] = { { "", "", "" }, { "", "", "" }, { "", "", "" } };
-
+		int jugador;
 		int movimiento = 0;
 		String ficha;
 
 		while (movimiento != 9) {
-
 			if (movimiento % 2 == 0) {
-				System.out.println("TURNO JUGADOR 1");
+				jugador = 1;
 				ficha = "O";
 			} else {
-				System.out.println("TURNO JUGADOR 2");
+				jugador = 2;
 				ficha = "X";
 			}
-
+			System.out.println("TURNO JUGADOR " + jugador);
 			coordenadas(tablero, valores, ficha);
-
 			if (movimiento >= 3) {
-				validacionhorizontal(valores);
-				validacionvertical(valores);
-				validaciondiagonal(valores);
 
 				if (validacionvertical(valores) == 1 || validacionhorizontal(valores) == 1
-						|| validaciondiagonal(valores) == 1) {
+						|| validaciondiagonal(valores) == 1 || validaciondiagonalder(valores) == 1) {
 
-					System.out.println("Ganador");
+					System.out.println("¡¡ GANADOR :) !!, JUGADOR " + jugador);
 					break;
-				} else {
-
 				}
 			}
-
 			movimiento++;
 
 		}
 
-		//
+		if (movimiento == 9) {
+			System.out.println("¡¡ EMPATE :C !!");
 
-		// TODO Auto-generated method stub
+		}
 
 	}
 
